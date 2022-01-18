@@ -1,6 +1,5 @@
 import discord
 import json
-import sqlite3
 import typing
 #import datetime
 #import asyncio
@@ -12,7 +11,6 @@ from discord.ext import commands
 from discord import channel
 
 config = json.load(open("config.json"))
-pushUpCount = sqlite3.connect("pushupcount.db")
 
 bot = commands.Bot(
     command_prefix="!", 
@@ -47,7 +45,7 @@ async def on_message(message):
 @bot.command()
 async def add(ctx, amount: typing.Optional[int] = 0):
     
-    if int(amount) > 0 and int(amount) < 10507:
+    if int(amount) > 0 and int(amount) < 10508:
         await ctx.send(f"{amount} push-ups added to your total.")
     else:
         await ctx.send("Insufficient amount of push-ups.")

@@ -1,3 +1,4 @@
+import os
 import discord
 import json
 import typing
@@ -64,5 +65,7 @@ async def bingus(ctx, num: typing.Optional[int] = 1, user: typing.Optional[str] 
     else:
         await ctx.send("come on now")
 
-token = config["token"]
+#token = config["token"]
+token = os.environ['DISCORD_TOKEN']
 bot.run(token)
+

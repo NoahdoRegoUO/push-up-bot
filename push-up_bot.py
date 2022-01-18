@@ -8,7 +8,6 @@ import typing
 
 from discord import message
 from discord.ext import commands
-from discord import channel
 
 config = json.load(open("config.json"))
 

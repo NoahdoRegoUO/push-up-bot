@@ -10,7 +10,7 @@ import typing
 from discord import message
 from discord.ext import commands
 
-config = json.load(open("config.json"))
+from keep_alive import keep_alive
 
 bot = commands.Bot(
     command_prefix="!", 
@@ -65,7 +65,7 @@ async def bingus(ctx, num: typing.Optional[int] = 1, user: typing.Optional[str] 
     else:
         await ctx.send("come on now")
 
-#token = config["token"]
+keep_alive()
 token = os.environ['DISCORD_TOKEN']
 bot.run(token)
 

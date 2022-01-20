@@ -19,10 +19,8 @@ from keep_alive import keep_alive
 
 bot = commands.Bot(command_prefix="!", case_insensitive=True)
 
-<<<<<<< HEAD
+
 # Bot events:
-=======
->>>>>>> 1e75ef86a82779ebb24e847a290b601b72fcb920
 
 @bot.event
 async def on_ready():
@@ -56,17 +54,10 @@ def confirm():
 async def add(ctx, amount: typing.Optional[int] = 0):
 
     if int(amount) > 0 and int(amount) < 10508:
-<<<<<<< HEAD
-        if ctx.message.author in db.keys():
-            db[ctx.message.author] += amount
-        else:
-            db[ctx.message.author] = amount
-=======
         if f"{ctx.message.author}" in db.keys():
             db[f"{ctx.message.author}"] += amount
         else:
             db[f"{ctx.message.author}"] = amount
->>>>>>> 1e75ef86a82779ebb24e847a290b601b72fcb920
         await ctx.send(f"{amount} push-ups added to your total.")
     else:
         await ctx.send("Insufficient amount of push-ups.")
@@ -74,17 +65,12 @@ async def add(ctx, amount: typing.Optional[int] = 0):
 
 @bot.command()
 async def total(ctx):
-<<<<<<< HEAD
-    await ctx.send(db[ctx.message.author])
-=======
     if f"{ctx.message.author}" in db.keys():
         total = db[f"{ctx.message.author}"]
     else:
         db[f"{ctx.message.author}"] = 0
         total = db[f"{ctx.message.author}"]  
     await ctx.send(f"You have done {total} push-ups.")
-
->>>>>>> 1e75ef86a82779ebb24e847a290b601b72fcb920
 
 @bot.command()
 async def bingus(ctx,

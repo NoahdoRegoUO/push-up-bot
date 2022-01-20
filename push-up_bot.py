@@ -7,19 +7,24 @@ import typing
 #import random
 #import requests
 
+# Extra discord libraries
 from discord import message
 from discord.ext import commands
 
+# Replit database
+from replit import db
+
+# Web server hosting function
 from keep_alive import keep_alive
 
-bot = commands.Bot(
-    command_prefix="!", 
-    case_insensitive=True
-)
+bot = commands.Bot(command_prefix="!", case_insensitive=True)
+
+# Bot events:
 
 @bot.event
 async def on_ready():
     print("Bot is ready")
+
 
 @bot.event
 async def on_member_join(member):
@@ -29,29 +34,40 @@ async def on_member_join(member):
     response = f"Welcome, {member.name}!"
     await channel.send(response)
 
+
 """
 @bot.event
 async def on_message(message):
-    if message.author == bot.user:
-        return
-    keywords = ["bingus", "plungus"]
-    channel = message.channel
-    for keyword in keywords:
-        if keyword.lower() in message.content.lower():
-            response = f"{message.author.mention} {keyword.lower()}"
+    response = ""
     await channel.send(response)
 """
+# Bot functions:
+
+def confirm():
+    pass
+
+# Bot commands:
 
 @bot.command()
 async def add(ctx, amount: typing.Optional[int] = 0):
-    
+
     if int(amount) > 0 and int(amount) < 10508:
+        if ctx.message.author in db.keys():
+            db[ctx.message.author] += amount
+        else:
+            db[ctx.message.author] = amount
         await ctx.send(f"{amount} push-ups added to your total.")
     else:
         await ctx.send("Insufficient amount of push-ups.")
 
 @bot.command()
-async def bingus(ctx, num: typing.Optional[int] = 1, user: typing.Optional[str] = ""):
+async def total(ctx):
+    await ctx.send(db[ctx.message.author])
+
+@bot.command()
+async def bingus(ctx,
+                 num: typing.Optional[int] = 1,
+                 user: typing.Optional[str] = ""):
 
     if num > 0 and num < 6 and user == "":
         for i in range(num):
@@ -65,7 +81,7 @@ async def bingus(ctx, num: typing.Optional[int] = 1, user: typing.Optional[str] 
     else:
         await ctx.send("come on now")
 
+
 keep_alive()
 token = os.environ['DISCORD_TOKEN']
 bot.run(token)
-

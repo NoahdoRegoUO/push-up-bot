@@ -49,7 +49,6 @@ def confirm():
 
 # Bot commands:
 
-
 @bot.command()
 async def add(ctx, amount: typing.Optional[int] = 0):
 
@@ -61,6 +60,19 @@ async def add(ctx, amount: typing.Optional[int] = 0):
         await ctx.send(f"{amount} push-ups added to your total.")
     else:
         await ctx.send("Insufficient amount of push-ups.")
+
+@bot.command()
+async def remove(ctx, amount: typing.Optional[int] = 0):
+    if f"{ctx.message.author}" in db.keys():
+        if int(amount) <= db[f"{ctx.message.author}"]:
+            db[f"{ctx.message.author}"] -= amount
+            await ctx.send(f"{amount} push-ups removed from your total.")
+        else:
+            
+            await ctx.send("Insufficient amount of push-ups to remove.")
+    else:
+        db[f"{ctx.message.author}"] = 0
+        await ctx.send("You have 0 push-ups!")
 
 
 @bot.command()

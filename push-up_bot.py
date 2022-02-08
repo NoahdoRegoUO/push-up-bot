@@ -2,13 +2,13 @@ import os
 import discord
 import json
 import typing
-#import datetime
-#import asyncio
+import asyncio
 #import random
 #import requests
+#import datetime
 
 # Extra discord libraries
-from discord import message
+#from discord import message
 from discord.ext import commands
 
 # Replit database
@@ -36,12 +36,6 @@ async def on_member_join(member):
     await channel.send(response)
 
 
-"""
-@bot.event
-async def on_message(message):
-    response = ""
-    await channel.send(response)
-"""
 # Bot functions:
 
 def confirm():
@@ -61,10 +55,11 @@ async def add(ctx, amount: typing.Optional[int] = 0):
     else:
         await ctx.send("Insufficient amount of push-ups.")
 
+
 @bot.command()
 async def remove(ctx, amount: typing.Optional[int] = 0):
     if f"{ctx.message.author}" in db.keys():
-        if int(amount) <= db[f"{ctx.message.author}"]:
+        if int(amount) <= db[f"{ctx.message.author}"] and int(amount) > 0:
             db[f"{ctx.message.author}"] -= amount
             await ctx.send(f"{amount} push-ups removed from your total.")
         else:
@@ -83,6 +78,23 @@ async def total(ctx):
         db[f"{ctx.message.author}"] = 0
         total = db[f"{ctx.message.author}"]  
     await ctx.send(f"You have done {total} push-ups.")
+
+
+@bot.command()
+async def time(ctx):
+    channel = ctx.message.channel
+    message = await channel.send('Timer started, react with 👍 to stop')
+    await message.add_reaction('👍')
+    
+    def check(reaction, user):
+        return user == ctx.message.author and str(reaction.emoji) == '👍'
+
+    try:
+        reaction, user = await bot.wait_for('reaction_add', timeout=60.0, check=check)
+    except asyncio.TimeoutError:
+        await channel.send('Time limit reached')
+    else:
+        await channel.send('Your time is ___')
 
 @bot.command()
 async def bingus(ctx,
